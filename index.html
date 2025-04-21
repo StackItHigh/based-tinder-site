@@ -627,7 +627,8 @@
                     
                     <div class="form-group">
                         <label for="age">Age</label>
-                        <input type="number" id="age" placeholder="Your age" min="18" max="99">
+                        <input type="number" id="age" placeholder="Your age" min="18" max="999" maxlength="3" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+                        >
                     </div>
                     
                     <div class="form-group">
