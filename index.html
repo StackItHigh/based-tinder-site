@@ -494,7 +494,13 @@
             flex: 1;
         }
 
-        footer {
+        /* Footer styles */
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
             width: 100%;
             text-align: center;
             margin-top: 40px;
@@ -503,6 +509,39 @@
             padding: 15px;
             backdrop-filter: blur(5px);
             border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 8px 12px;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .social-button:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .social-button svg {
+            transition: transform 0.3s ease;
+        }
+
+        .social-button:hover svg {
+            transform: scale(1.1);
         }
 
         @media (max-width: 900px) {
@@ -527,39 +566,38 @@
         }
 
         /* Hidden download container styles - SQUARE FORMAT */
-#download-container {
-    display: none;
-    position: absolute;
-    top: -9999px;
-    left: -9999px;
-    width: 1180px;
-    height: 1180px;
-    overflow: hidden;
-}
+        #download-container {
+            display: none;
+            position: absolute;
+            top: -9999px;
+            left: -9999px;
+            width: 1080px;
+            height: 1080px;
+            overflow: hidden;
+        }
 
-.download-wrapper {
-    width: 1080px;
-    height: 1080px;
-    position: relative;
-    background-color: var(--tinder-blue);
-}
+        .download-wrapper {
+            width: 1080px;
+            height: 1080px;
+            position: relative;
+            background-color: var(--tinder-blue);
+        }
 
-.download-bg {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    object-fit: cover;
-}
+        .download-bg {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            object-fit: cover;
+        }
 
-#phone-clone-container {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(1.35); /* Added scale(1.15) to increase size */
-
-}
+        #phone-clone-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
     </style>
 </head>
 <body>
@@ -677,9 +715,19 @@
             <div id="phone-clone-container"></div>
         </div>
     </div>
-    
+
     <footer>
-        <p>Created with ❤️ | Based Tinder - Meet your match onchain</p>
+        <div class="footer-content">
+            <p>Created with ❤️ | Based Tinder - Meet your match onchain</p>
+            <div class="social-links">
+                <a href="https://x.com/BasedTinder" target="_blank" class="social-button">
+                    <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
+                    </svg>
+                    <span>@BasedTinder</span>
+                </a>
+            </div>
+        </div>
     </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -760,132 +808,235 @@
             previewBio.textContent = bioInput.value || 'Your bio will appear here. Tell something interesting about yourself!';
         });
         
-        // Download profile with phone on blue background - SQUARE FORMAT
-downloadBtn.addEventListener('click', () => {
-    // First, make sure our download container is visible (but off-screen)
-    const downloadContainer = document.getElementById('download-container');
-    downloadContainer.style.display = 'block';
-    
-    // Clone the phone container
-    const originalPhone = document.querySelector('.phone-container');
-    const phoneClone = originalPhone.cloneNode(true);
-    
-    // Place the clone in our download container
-    const phoneCloneContainer = document.getElementById('phone-clone-container');
-    phoneCloneContainer.innerHTML = '';
-    phoneCloneContainer.appendChild(phoneClone);
-    
-    // Update any dynamic content in the clone to match the original
-    updateCloneContent(phoneClone);
-    
-    // Give time for the browser to render the clone before capturing
-    setTimeout(() => {
-        // Render the download container with html2canvas
-        const downloadWrapper = document.querySelector('.download-wrapper');
-        
-        html2canvas(downloadWrapper, {
-            allowTaint: true,
-            useCORS: true,
-            scale: 3, // High quality but not too large
-            backgroundColor: null,
-            width: 1080,
-            height: 1080,
-            logging: true,
-            onclone: function(clonedDoc) {
-                // Make sure all elements are visible in the clone
-                const clonedWrapper = clonedDoc.querySelector('.download-wrapper');
-                clonedWrapper.style.opacity = '1';
-                clonedWrapper.style.visibility = 'visible';
-            }
-        }).then(canvas => {
-            // Hide our download container again
-            downloadContainer.style.display = 'none';
+        // Download profile with direct method for Telegram compatibility
+        downloadBtn.addEventListener('click', () => {
+            // First, make sure our download container is visible (but off-screen)
+            const downloadContainer = document.getElementById('download-container');
+            downloadContainer.style.display = 'block';
             
-            // Create and click download link
-            const link = document.createElement('a');
-            link.download = 'tinder-profile.png';
-            link.href = canvas.toDataURL('image/png', 1.0); // Maximum quality
-            link.click();
-        }).catch(error => {
-            // Hide our download container on error
-            downloadContainer.style.display = 'none';
+            // Clone the phone container
+            const originalPhone = document.querySelector('.phone-container');
+            const phoneClone = originalPhone.cloneNode(true);
             
-            console.error("Error generating image:", error);
-            alert("There was an error creating your image. Please try again.");
-        });
-    }, 100); // Short delay to ensure rendering
-});
-
-// Share on X (Twitter) - SQUARE FORMAT for image, but we keep Twitter aspect ratio
-shareXBtn.addEventListener('click', () => {
-    // Make sure our download container is visible (but off-screen)
-    const downloadContainer = document.getElementById('download-container');
-    downloadContainer.style.display = 'block';
-    
-    // Clone the phone container
-    const originalPhone = document.querySelector('.phone-container');
-    const phoneClone = originalPhone.cloneNode(true);
-    
-    // Place the clone in our download container
-    const phoneCloneContainer = document.getElementById('phone-clone-container');
-    phoneCloneContainer.innerHTML = '';
-    phoneCloneContainer.appendChild(phoneClone);
-    
-    // Update any dynamic content in the clone to match the original
-    updateCloneContent(phoneClone);
-    
-    // Give time for the browser to render the clone before capturing
-    setTimeout(() => {
-        // Render the download container with html2canvas
-        const downloadWrapper = document.querySelector('.download-wrapper');
-        
-        html2canvas(downloadWrapper, {
-            allowTaint: true,
-            useCORS: true,
-            scale: 2, // Slightly lower scale for Twitter to keep file size reasonable
-            backgroundColor: null,
-            width: 1080,
-            height: 1080,
-            logging: true,
-            onclone: function(clonedDoc) {
-                // Make sure all elements are visible in the clone
-                const clonedWrapper = clonedDoc.querySelector('.download-wrapper');
-                clonedWrapper.style.opacity = '1';
-                clonedWrapper.style.visibility = 'visible';
-            }
-        }).then(canvas => {
-            // Hide our download container again
-            downloadContainer.style.display = 'none';
+            // Place the clone in our download container
+            const phoneCloneContainer = document.getElementById('phone-clone-container');
+            phoneCloneContainer.innerHTML = '';
+            phoneCloneContainer.appendChild(phoneClone);
             
-            canvas.toBlob(blob => {
-                // Create a temporary URL for the blob
-                const imageUrl = URL.createObjectURL(blob);
+            // Update any dynamic content in the clone to match the original
+            updateCloneContent(phoneClone);
+            
+            // Show a loading indicator
+            const loadingMessage = document.createElement('div');
+            loadingMessage.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: rgba(0, 0, 0, 0.8);
+                color: white;
+                padding: 20px;
+                border-radius: 10px;
+                z-index: 9999;
+                text-align: center;
+            `;
+            loadingMessage.innerHTML = 'Generating image...<br>Please wait';
+            document.body.appendChild(loadingMessage);
+            
+            // Give time for the browser to render the clone before capturing
+            setTimeout(() => {
+                // Render the download container with html2canvas
+                const downloadWrapper = document.querySelector('.download-wrapper');
                 
-                // Store the image locally first
-                const downloadLink = document.createElement('a');
-                downloadLink.href = imageUrl;
-                downloadLink.download = 'tinder-profile-for-twitter.png';
-                downloadLink.click();
-                
-                // Then open Twitter intent with text
-                setTimeout(() => {
-                    const text = `Tinder but BASED #BasedTinder $TINDER`;
-                    const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
-                    window.open(twitterUrl, '_blank');
+                html2canvas(downloadWrapper, {
+                    allowTaint: true,
+                    useCORS: true,
+                    scale: 2, // Lower scale for better mobile compatibility
+                    backgroundColor: null,
+                    width: 1080,
+                    height: 1080,
+                    logging: true,
+                    onclone: function(clonedDoc) {
+                        // Make sure all elements are visible in the clone
+                        const clonedWrapper = clonedDoc.querySelector('.download-wrapper');
+                        clonedWrapper.style.opacity = '1';
+                        clonedWrapper.style.visibility = 'visible';
+                    }
+                }).then(canvas => {
+                    // Hide our download container again
+                    downloadContainer.style.display = 'none';
                     
-                    // Clean up
-                    URL.revokeObjectURL(imageUrl);
-                }, 500);
-            }, 'image/png', 0.95); // High quality PNG
-        }).catch(error => {
-            // Hide our download container on error
-            downloadContainer.style.display = 'none';
-            
-            console.error("Error generating image for Twitter:", error);
-            alert("There was an error creating your image for Twitter. Please try again.");
+                    // Convert canvas to a data URL
+                    const imageUrl = canvas.toDataURL('image/png', 0.9);
+                    
+                    // Remove loading message
+                    document.body.removeChild(loadingMessage);
+                    
+                    // Create a temporary image element in the current page
+                    const tempImg = document.createElement('div');
+                    tempImg.style.cssText = `
+                        position: fixed;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        background-color: rgba(0,0,0,0.9);
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+                        z-index: 9999;
+                        padding: 20px;
+                    `;
+                    
+                    tempImg.innerHTML = `
+                        <div style="color: white; margin-bottom: 15px; text-align: center; max-width: 90%;">
+                            <p>Long press on the image and select "Save Image" or "Download Image"</p>
+                        </div>
+                        <img src="${imageUrl}" alt="BasedTinder Profile" style="max-width: 90%; max-height: 70vh; object-fit: contain;">
+                        <button id="close-preview" style="margin-top: 20px; padding: 10px 20px; background: white; border: none; border-radius: 50px; font-weight: bold; color: #0057ff;">Close</button>
+                    `;
+                    
+                    // Add to document
+                    document.body.appendChild(tempImg);
+                    
+                    // Add close functionality
+                    document.getElementById('close-preview').addEventListener('click', function() {
+                        document.body.removeChild(tempImg);
+                    });
+                    
+                }).catch(error => {
+                    // Hide our download container on error
+                    downloadContainer.style.display = 'none';
+                    
+                    // Remove loading message
+                    document.body.removeChild(loadingMessage);
+                    
+                    console.error("Error generating image:", error);
+                    alert("There was an error creating your image. Please try again or use a different browser.");
+                });
+            }, 100); // Short delay to ensure rendering
         });
-    }, 100); // Short delay to ensure rendering
-});
+        
+        // Share on X (Twitter) with a similar approach
+        shareXBtn.addEventListener('click', () => {
+            // Make sure our download container is visible (but off-screen)
+            const downloadContainer = document.getElementById('download-container');
+            downloadContainer.style.display = 'block';
+            
+            // Clone the phone container
+            const originalPhone = document.querySelector('.phone-container');
+            const phoneClone = originalPhone.cloneNode(true);
+            
+            // Place the clone in our download container
+            const phoneCloneContainer = document.getElementById('phone-clone-container');
+            phoneCloneContainer.innerHTML = '';
+            phoneCloneContainer.appendChild(phoneClone);
+            
+            // Update any dynamic content in the clone to match the original
+            updateCloneContent(phoneClone);
+            
+            // Show a loading indicator
+            const loadingMessage = document.createElement('div');
+            loadingMessage.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: rgba(0, 0, 0, 0.8);
+                color: white;
+                padding: 20px;
+                border-radius: 10px;
+                z-index: 9999;
+                text-align: center;
+            `;
+            loadingMessage.innerHTML = 'Generating image...<br>Please wait';
+            document.body.appendChild(loadingMessage);
+            
+            // Give time for the browser to render the clone before capturing
+            setTimeout(() => {
+                // Render the download container with html2canvas
+                const downloadWrapper = document.querySelector('.download-wrapper');
+                
+                html2canvas(downloadWrapper, {
+                    allowTaint: true,
+                    useCORS: true,
+                    scale: 1.5, // Reduced scale for mobile
+                    backgroundColor: null,
+                    width: 1080,
+                    height: 1080,
+                    logging: true,
+                    onclone: function(clonedDoc) {
+                        // Make sure all elements are visible in the clone
+                        const clonedWrapper = clonedDoc.querySelector('.download-wrapper');
+                        clonedWrapper.style.opacity = '1';
+                        clonedWrapper.style.visibility = 'visible';
+                    }
+                }).then(canvas => {
+                    // Hide our download container again
+                    downloadContainer.style.display = 'none';
+                    
+                    // Convert canvas to a data URL
+                    const imageUrl = canvas.toDataURL('image/png', 0.9);
+                    
+                    // Remove loading message
+                    document.body.removeChild(loadingMessage);
+                    
+                    // Create a temporary image element in the current page
+                    const tempImg = document.createElement('div');
+                    tempImg.style.cssText = `
+                        position: fixed;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        background-color: rgba(0,0,0,0.9);
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+                        z-index: 9999;
+                        padding: 20px;
+                    `;
+                    
+                    tempImg.innerHTML = `
+                        <div style="color: white; margin-bottom: 15px; text-align: center; max-width: 90%;">
+                            <p>Save this image, then share it on X/Twitter</p>
+                        </div>
+                        <img src="${imageUrl}" alt="BasedTinder Profile" style="max-width: 90%; max-height: 70vh; object-fit: contain;">
+                        <div style="display: flex; gap: 10px; margin-top: 20px;">
+                            <button id="close-preview" style="padding: 10px 20px; background: white; border: none; border-radius: 50px; font-weight: bold; color: #0057ff;">Close</button>
+                            <button id="open-twitter" style="padding: 10px 20px; background: #1DA1F2; border: none; border-radius: 50px; font-weight: bold; color: white;">Open Twitter</button>
+                        </div>
+                    `;
+                    
+                    // Add to document
+                    document.body.appendChild(tempImg);
+                    
+                    // Add close functionality
+                    document.getElementById('close-preview').addEventListener('click', function() {
+                        document.body.removeChild(tempImg);
+                    });
+                    
+                    // Add Twitter open functionality
+                    document.getElementById('open-twitter').addEventListener('click', function() {
+                        const text = `Check out my Based Tinder profile! #BasedTinder $TINDER`;
+                        const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
+                        window.open(twitterUrl, '_blank');
+                    });
+                    
+                }).catch(error => {
+                    // Hide our download container on error
+                    downloadContainer.style.display = 'none';
+                    
+                    // Remove loading message
+                    document.body.removeChild(loadingMessage);
+                    
+                    console.error("Error generating image for Twitter:", error);
+                    alert("There was an error creating your image. Please try again or use a different browser.");
+                });
+            }, 100); // Short delay to ensure rendering
+        });
         
         // Reset form and preview
         resetBtn.addEventListener('click', () => {
@@ -935,4 +1086,3 @@ shareXBtn.addEventListener('click', () => {
     </script>
 </body>
 </html>
-
