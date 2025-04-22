@@ -719,6 +719,7 @@
     </div>
 
     <!-- Replace your current footer section with this updated version -->
+<!-- Update your footer to include the Powered by KOA section -->
 <footer>
     <div class="footer-content">
         <p>Created with ❤️ | Based Tinder - Meet your match onchain</p>
@@ -748,8 +749,51 @@
                 <span>Dexscreener</span>
             </a>
         </div>
+        <div class="powered-by">
+            <span>Powered by</span>
+            <a href="https://kingofapes.fun" target="_blank" class="powered-by-link">
+                <img src="images/koablue.png" alt="King of Apes" height="34.5">
+            </a>
+        </div>
+        
+        <!-- And update the CSS for the powered-by-link img: -->
+        <style>
+        .powered-by-link img {
+            height: 34.5px; /* Increased by 15% from 30px */
+            width: auto;
+        }
+        </style>
     </div>
 </footer>
+
+<!-- Add this CSS for the powered-by section -->
+<style>
+.powered-by {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.powered-by span {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.powered-by-link {
+    transition: transform 0.3s ease;
+    display: flex;
+    align-items: center;
+}
+
+.powered-by-link img {
+    height: 30px;
+    width: auto;
+}
+
+.powered-by-link:hover {
+    transform: translateY(-2px);
+}
+</style>
 
 <!-- Add this to your CSS if not already present to style the social links properly -->
 <style>
