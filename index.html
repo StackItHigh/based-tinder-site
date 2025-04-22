@@ -765,27 +765,6 @@
         </style>
     </div>
 
-    // Add this after your other JavaScript
-document.addEventListener('DOMContentLoaded', function() {
-    // Check if the KOA logo is loading
-    const koaLogo = document.querySelector('.powered-by-link img');
-    
-    koaLogo.addEventListener('error', function() {
-        console.error('Error loading KOA logo image. Check path and file existence.');
-        // Try an alternative approach - create the image with JavaScript
-        setTimeout(() => {
-            const img = new Image();
-            img.src = 'images/koablue.png';
-            img.alt = 'King of Apes';
-            img.height = 34.5;
-            img.style.height = '34.5px';
-            img.style.width = 'auto';
-            document.querySelector('.powered-by-link').innerHTML = '';
-            document.querySelector('.powered-by-link').appendChild(img);
-        }, 500);
-    });
-});
-</script>
 </footer>
 
 <!-- Add this CSS for the powered-by section -->
