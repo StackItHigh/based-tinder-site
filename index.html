@@ -628,7 +628,6 @@
                     <div class="form-group">
                         <label for="age">Age</label>
                         <input type="number" id="age" placeholder="Your age" min="1" max="999" maxlength="3" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
-                        >
                     </div>
                     
                     <div class="form-group">
@@ -639,6 +638,12 @@
                     <div class="form-group">
                         <label for="location">Location</label>
                         <input type="text" id="location" placeholder="Your city or location">
+                    </div>
+                    
+                    <!-- New distance input field -->
+                    <div class="form-group">
+                        <label for="distance">Distance (miles)</label>
+                        <input type="number" id="distance" placeholder="Distance in miles" min="1" max="9999" maxlength="4" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
                     </div>
                     
                     <div class="form-group">
@@ -693,7 +698,7 @@
                             </div>
                             <div class="profile-location" id="preview-location">Your Location</div>
                             <div class="profile-job" id="preview-job">Your Occupation</div>
-                            <div class="profile-distance">14 Miles Away</div>
+                            <div class="profile-distance" id="preview-distance">14 Miles Away</div>
                             
                             <div class="profile-about-title">About Me</div>
                             <div class="profile-bio" id="preview-bio">Your bio will appear here. Tell something interesting about yourself!</div>
@@ -866,6 +871,7 @@
         const ageInput = document.getElementById('age');
         const jobInput = document.getElementById('job');
         const locationInput = document.getElementById('location');
+        const distanceInput = document.getElementById('distance'); // New distance input
         const bioInput = document.getElementById('bio');
         
         // Preview elements
@@ -873,6 +879,7 @@
         const previewAge = document.getElementById('preview-age');
         const previewJob = document.getElementById('preview-job');
         const previewLocation = document.getElementById('preview-location');
+        const previewDistance = document.getElementById('preview-distance'); // New distance preview
         const previewBio = document.getElementById('preview-bio');
         
         // Buttons
@@ -924,6 +931,11 @@
         
         locationInput.addEventListener('input', () => {
             previewLocation.textContent = locationInput.value || 'Your Location';
+        });
+        
+        // New distance input handler
+        distanceInput.addEventListener('input', () => {
+            previewDistance.textContent = distanceInput.value ? `${distanceInput.value} Miles Away` : '14 Miles Away';
         });
         
         bioInput.addEventListener('input', () => {
@@ -1179,6 +1191,7 @@ phoneClone.style.transformOrigin = 'center';
             previewAge.textContent = ', 25';
             previewJob.textContent = 'Your Occupation';
             previewLocation.textContent = 'Your Location';
+            previewDistance.textContent = '14 Miles Away'; // Reset distance preview
             previewBio.textContent = 'Your bio will appear here. Tell something interesting about yourself!';
         });
         
@@ -1202,6 +1215,7 @@ phoneClone.style.transformOrigin = 'center';
                 { original: 'preview-age', clone: '.profile-name-age span:last-child' },
                 { original: 'preview-job', clone: '.profile-job' },
                 { original: 'preview-location', clone: '.profile-location' },
+                { original: 'preview-distance', clone: '.profile-distance' }, // Added distance mapping
                 { original: 'preview-bio', clone: '.profile-bio' }
             ];
             
